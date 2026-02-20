@@ -70,11 +70,18 @@
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        /* 按钮组：2列布局 */
+        /* 按钮组：改为垂直排列的行 */
         .btn-group { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            display: flex;
+            flex-direction: column;
             gap: 25px; 
+        }
+        /* 按钮行：每行内部布局 */
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
         }
         /* 按钮样式：渐变+悬浮效果 */
         .btn { 
@@ -93,6 +100,7 @@
             position: relative;
             overflow: hidden;
             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            min-width: 220px;
         }
         /* 按钮hover效果：上浮+发光 */
         .btn:hover { 
@@ -125,8 +133,8 @@
             }
             h1 { font-size: 1.8rem; }
             .tips { font-size: 0.95rem; }
-            .btn { padding: 18px 0; font-size: 1rem; }
-            .btn-group { gap: 20px; }
+            .btn { padding: 18px 0; font-size: 1rem; min-width: 180px; }
+            .btn-group, .btn-row { gap: 20px; }
         }
     </style>
 </head>
@@ -135,11 +143,20 @@
         <h1>向往货源地址发布页</h1>
         <div class="tips">请 Ctrl+D 收藏本页到浏览器收藏夹回家不迷路！<br>联系售后客服+进入官方频道需要挂加速器VPN节点</div>
         <div class="btn-group">
-            <a href="https://shop.kauid.cn//links/CE12152E" class="btn" target="_blank">主卡网</a>
-            <a href="https://yun.95yjs.com/links/11E2FD70" class="btn" target="_blank">备用卡网</a>
-            <a href="https://t.me/@XH8888Fc" class="btn" target="_blank">售后客服</a>
-            <a href="https://t.me/XWKJ88" class="btn" target="_blank">官方TG频道</a>
-            <a href="https://t.me/Xwi918" class="btn" target="_blank">官方TG交流群</a>
+            <!-- 第一排：主卡网、备用卡网 -->
+            <div class="btn-row">
+                <a href="https://shop.kauid.cn//links/CE12152E" class="btn" target="_blank">主卡网</a>
+                <a href="https://yun.95yjs.com/links/11E2FD70" class="btn" target="_blank">备用卡网</a>
+            </div>
+            <!-- 第二排：售后客服（单独居中） -->
+            <div class="btn-row">
+                <a href="https://t.me/@XH8888Fc" class="btn" target="_blank">售后客服</a>
+            </div>
+            <!-- 第三排：官方TG频道、官方TG交流群 -->
+            <div class="btn-row">
+                <a href="https://t.me/XWKJ88" class="btn" target="_blank">官方TG频道</a>
+                <a href="https://t.me/Xwi918" class="btn" target="_blank">官方TG交流群</a>
+            </div>
         </div>
     </div>
 </body>
