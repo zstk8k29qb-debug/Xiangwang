@@ -5,72 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>向往货源地址发布页</title>
     <style>
-        /* 全局样式：适配手机+电脑，简洁大气 */
+        /* 全局样式：背景图全屏覆盖+复刻样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body { 
-            font-family: "微软雅黑", Arial, sans-serif; 
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
-            margin: 0; 
-            padding: 20px; 
+            font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; 
+            /* 植入你的背景图，设置全屏覆盖、不拉伸、固定不动 */
+            background: url('https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/c4e2584e494f4cdf933e326ab7bf2f64.jpg~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=202602201715590340FD216A0A9471E78A&rrcfp=dafada99&x-expires=2087802960&x-signature=KxnK%2BNA1iB3fqa3VdzCBsEla89o%3D') no-repeat center center fixed;
+            background-size: cover; /* 自适应覆盖全屏，不拉伸 */
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            color: #fff;
+            /* 背景加半透明遮罩，保证文字清晰 */
+            position: relative;
         }
-        /* 主容器：卡片式设计，带阴影 */
-        .container { 
-            max-width: 800px; 
+        /* 背景遮罩：让文字/按钮更醒目 */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: white; 
-            padding: 40px 30px; 
-            border-radius: 15px; 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12); 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩，可调整透明度 */
+            z-index: 0;
         }
-        /* 标题样式 */
+        /* 主容器：卡片悬浮+毛玻璃效果，层级高于背景 */
+        .container { 
+            max-width: 700px; 
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            padding: 50px 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 1; /* 确保容器在背景遮罩上方 */
+        }
+        /* 标题样式：渐变文字，更醒目 */
         h1 { 
             text-align: center; 
-            color: #2c3e50; 
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #4cc9f0, #4895ef, #7209b7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
         }
-        /* 提示文字 */
+        /* 提示文字：浅色+居中 */
         .tips { 
             text-align: center; 
-            color: #7f8c8d; 
-            margin: 20px 0 30px;
-            line-height: 1.6;
+            color: #f0f5ff; 
+            margin: 0 0 40px;
+            line-height: 1.8;
             font-size: 1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        /* 按钮组：2列布局，适配手机 */
+        /* 按钮组：2列布局 */
         .btn-group { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 25px; 
         }
-        /* 按钮样式：渐变背景，hover效果 */
+        /* 按钮样式：渐变+悬浮效果 */
         .btn { 
             display: block; 
-            padding: 18px 0; 
+            padding: 20px 0; 
             text-align: center; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
             color: white; 
             text-decoration: none; 
-            border-radius: 10px; 
-            font-weight: bold; 
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
-        /* 按钮hover：轻微上浮+加深阴影 */
+        /* 按钮hover效果：上浮+发光 */
         .btn:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
+            background: linear-gradient(90deg, #3a0ca3, #4361ee);
         }
-        /* 手机端适配：调整文字和按钮 */
+        /* 按钮点击波纹效果 */
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+        }
+        /* 手机端适配 */
         @media (max-width: 768px) {
-            h1 { font-size: 1.6rem; }
-            .tips { font-size: 0.9rem; }
-            .btn { padding: 15px 0; font-size: 1rem; }
+            .container {
+                padding: 35px 25px;
+            }
+            h1 { font-size: 1.8rem; }
+            .tips { font-size: 0.95rem; }
+            .btn { padding: 18px 0; font-size: 1rem; }
+            .btn-group { gap: 20px; }
         }
     </style>
 </head>
