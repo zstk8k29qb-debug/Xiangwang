@@ -36,7 +36,7 @@
             background: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩，可调整透明度 */
             z-index: 0;
         }
-        /* 顶部提示条样式：复刻截图效果 + 时间布局 */
+        /* 顶部提示条样式：复刻截图效果 */
         .top-notice {
             position: fixed;
             top: 0;
@@ -46,21 +46,9 @@
             color: #fff;
             padding: 12px 20px;
             font-size: 0.95rem;
+            text-align: center;
             z-index: 9999;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .notice-text {
-            text-align: left;
-        }
-        .beijing-time {
-            text-align: right;
-            color: #00ff9d; /* 时间用绿色高亮，更醒目 */
-            font-weight: bold;
         }
         .top-notice a {
             color: #ffd700;
@@ -82,18 +70,27 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
             z-index: 1; /* 确保容器在背景遮罩上方 */
-            margin-top: 70px; /* 给顶部提示条留出空间 */
+            margin-top: 50px; /* 给顶部提示条留出空间 */
         }
         /* 标题样式：渐变文字，更醒目 */
         h1 { 
             text-align: center; 
             font-size: 2.2rem;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             background: linear-gradient(90deg, #4cc9f0, #4895ef, #7209b7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             font-weight: 700;
+        }
+        /* 实时北京时间样式：放在标题下方 */
+        .beijing-time {
+            text-align: center;
+            color: #00ff9d; /* 绿色高亮 */
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         /* 提示文字：浅色+居中 */
         .tips { 
@@ -165,36 +162,31 @@
         @media (max-width: 768px) {
             .container {
                 padding: 35px 25px;
-                margin-top: 90px;
+                margin-top: 60px;
             }
             h1 { font-size: 1.8rem; }
+            .beijing-time { font-size: 1rem; }
             .tips { font-size: 0.95rem; }
             .btn { padding: 18px 0; font-size: 1rem; min-width: 180px; }
             .btn-group, .btn-row { gap: 20px; }
             .top-notice {
                 font-size: 0.85rem;
                 padding: 10px 15px;
-                flex-direction: column;
-                align-items: center;
-            }
-            .notice-text, .beijing-time {
-                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 顶部提示条（含实时北京时间） -->
+    <!-- 顶部提示条 -->
     <div class="top-notice">
-        <div class="notice-text">
-            收藏本站永久地址：<a href="https://xiangwang.netlify.app/" target="_blank">https://xiangwang.netlify.app/</a>，防止失联！<br>
-            网站域名经常更新，防止网站打不开，请务必截图收藏此网页，永久有效！
-        </div>
-        <div class="beijing-time" id="realTimeClock">北京时间：2026-02-24 17:30:00</div>
+        收藏本站永久地址：<a href="https://xiangwang.netlify.app/" target="_blank">https://xiangwang.netlify.app/</a>，防止失联！<br>
+        网站域名经常更新，防止网站打不开，请务必截图收藏此网页，永久有效！
     </div>
 
     <div class="container">
         <h1>向往货源地址发布页</h1>
+        <!-- 实时北京时间放在标题下方 -->
+        <div class="beijing-time" id="realTimeClock">北京时间：2026-02-24 23:32:00</div>
         <div class="tips">请 Ctrl+D 收藏本页到浏览器收藏夹回家不迷路！<br>联系售后客服+进入官方频道需要挂加速器VPN节点</div>
         <div class="btn-group">
             <!-- 第一排：主卡网、备用卡网 -->
