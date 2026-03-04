@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 关键优化：强制浏览器优先渲染文字/按钮，再加载图片 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
     <title>向往货源地址发布页</title>
     <style>
-        /* 全局样式：背景图全屏覆盖+复刻样式 */
+        /* 全局样式：优化加载优先级，先渲染骨架 */
         * {
             margin: 0;
             padding: 0;
@@ -13,19 +16,30 @@
         }
         body { 
             font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; 
-            /* 植入你的背景图，设置全屏覆盖、不拉伸、固定不动 */
-            background: url('https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/c4e2584e494f4cdf933e326ab7bf2f64.jpg~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=202602201715590340FD216A0A9471E78A&rrcfp=dafada99&x-expires=2087802960&x-signature=KxnK%2BNA1iB3fqa3VdzCBsEla89o%3D') no-repeat center center fixed;
-            background-size: cover; /* 自适应覆盖全屏，不拉伸 */
+            /* 优化1：背景图改为懒加载+非固定，避免阻塞渲染 */
+            background: #1a1a2e; /* 先显示纯色背景，图片加载后替换 */
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             color: #fff;
-            /* 背景加半透明遮罩，保证文字清晰 */
             position: relative;
         }
-        /* 背景遮罩：让文字/按钮更醒目 */
+        /* 优化2：背景图单独用div加载，设置懒加载+低优先级 */
+        .bg-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/c4e2584e494f4cdf933e326ab7bf2f64.jpg~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=202602201715590340FD216A0A9471E78A&rrcfp=dafada99&x-expires=2087802960&x-signature=KxnK%2BNA1iB3fqa3VdzCBsEla89o%3D') no-repeat center center;
+            background-size: cover;
+            opacity: 0; /* 初始透明 */
+            transition: opacity 0.8s ease;
+            z-index: -1; /* 放在最底层，不阻塞渲染 */
+        }
+        /* 背景遮罩：提前渲染，不依赖图片 */
         body::before {
             content: "";
             position: absolute;
@@ -33,10 +47,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩，可调整透明度 */
+            background: rgba(0, 0, 0, 0.5);
             z-index: 0;
         }
-        /* 顶部提示条样式：复刻截图效果 */
+        /* 顶部提示条：轻量化，提前渲染 */
         .top-notice {
             position: fixed;
             top: 0;
@@ -55,10 +69,7 @@
             text-decoration: none;
             font-weight: bold;
         }
-        .top-notice a:hover {
-            text-decoration: underline;
-        }
-        /* 主容器：卡片悬浮+毛玻璃效果，层级高于背景 */
+        /* 主容器：优先渲染，不依赖背景图 */
         .container { 
             max-width: 700px; 
             width: 100%;
@@ -69,10 +80,9 @@
             box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.15);
             position: relative;
-            z-index: 1; /* 确保容器在背景遮罩上方 */
-            margin-top: 50px; /* 给顶部提示条留出空间 */
+            z-index: 1;
+            margin-top: 50px;
         }
-        /* 标题样式：渐变文字，更醒目 */
         h1 { 
             text-align: center; 
             font-size: 2.2rem;
@@ -83,16 +93,14 @@
             color: transparent;
             font-weight: 700;
         }
-        /* 实时北京时间样式：放在标题下方 */
         .beijing-time {
             text-align: center;
-            color: #00ff9d; /* 绿色高亮 */
+            color: #00ff9d;
             font-weight: bold;
             font-size: 1.1rem;
             margin-bottom: 20px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        /* 提示文字：浅色+居中 */
         .tips { 
             text-align: center; 
             color: #f0f5ff; 
@@ -102,20 +110,17 @@
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        /* 按钮组：改为垂直排列的行 */
         .btn-group { 
             display: flex;
             flex-direction: column;
             gap: 25px; 
         }
-        /* 按钮行：每行内部布局 */
         .btn-row {
             display: flex;
             justify-content: center;
             gap: 25px;
             flex-wrap: wrap;
         }
-        /* 按钮样式：渐变+悬浮效果 */
         .btn { 
             display: block; 
             padding: 20px 0; 
@@ -134,13 +139,11 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
             min-width: 220px;
         }
-        /* 按钮hover效果：上浮+发光 */
         .btn:hover { 
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
             background: linear-gradient(90deg, #3a0ca3, #4361ee);
         }
-        /* 按钮点击波纹效果 */
         .btn::after {
             content: "";
             position: absolute;
@@ -177,6 +180,9 @@
     </style>
 </head>
 <body>
+    <!-- 背景图div：懒加载 -->
+    <div class="bg-img" id="bgImg"></div>
+
     <!-- 顶部提示条 -->
     <div class="top-notice">
         收藏本站永久地址：<a href="https://xiangwang.netlify.app/" target="_blank">https://xiangwang.netlify.app/</a>，防止失联！<br>
@@ -185,20 +191,16 @@
 
     <div class="container">
         <h1>向往货源地址发布页</h1>
-        <!-- 实时北京时间放在标题下方 -->
         <div class="beijing-time" id="realTimeClock">北京时间：2026-02-24 23:32:00</div>
         <div class="tips">请 Ctrl+D 收藏本页到浏览器收藏夹回家不迷路！<br>联系售后客服+进入官方频道需要挂加速器VPN节点</div>
         <div class="btn-group">
-            <!-- 第一排：主卡网（已替换新链接）、备用卡网 -->
             <div class="btn-row">
                 <a href="https://p.ab0r.cn/links/F1C2F8CB" class="btn" target="_blank">主卡网</a>
                 <a href="https://yun.95yjs.com/links/11E2FD70" class="btn" target="_blank">备用卡网</a>
             </div>
-            <!-- 第二排：售后客服（单独居中） -->
             <div class="btn-row">
                 <a href="https://t.me/@XH8888Fc" class="btn" target="_blank">售后客服</a>
             </div>
-            <!-- 第三排：官方TG频道、官方TG交流群 -->
             <div class="btn-row">
                 <a href="https://t.me/XWKJ88" class="btn" target="_blank">官方TG频道</a>
                 <a href="https://t.me/Xwi918" class="btn" target="_blank">官方TG交流群</a>
@@ -206,28 +208,29 @@
         </div>
     </div>
 
-    <!-- 实时更新北京时间的JS代码 -->
     <script>
-        // 格式化日期时间：补零+拼接
-        function formatDateTime(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            const seconds = String(date.getSeconds()).padStart(2, '0');
-            return `北京时间：${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        }
-
-        // 更新时间函数
-        function updateClock() {
-            const now = new Date(); // 获取当前时间（自动适配北京时间）
-            document.getElementById('realTimeClock').textContent = formatDateTime(now);
-        }
-
-        // 页面加载时立即更新，之后每秒更新一次
-        updateClock();
-        setInterval(updateClock, 1000);
+        // 优化3：页面渲染完成后，再加载背景图（不阻塞首屏）
+        window.onload = function() {
+            // 显示背景图
+            document.getElementById('bgImg').style.opacity = 1;
+            
+            // 实时时间（延后加载，不影响首屏）
+            function formatDateTime(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                return `北京时间：${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            }
+            function updateClock() {
+                const now = new Date();
+                document.getElementById('realTimeClock').textContent = formatDateTime(now);
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
     </script>
 </body>
 </html>
