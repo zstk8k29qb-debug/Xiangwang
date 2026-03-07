@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 关键优化：强制浏览器优先渲染文字/按钮，再加载图片 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="renderer" content="webkit">
     <title>向往货源地址发布页</title>
     <style>
-        /* 全局样式：优化加载优先级，先渲染骨架 */
         * {
             margin: 0;
             padding: 0;
@@ -16,8 +12,7 @@
         }
         body { 
             font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; 
-            /* 优化1：背景图改为懒加载+非固定，避免阻塞渲染 */
-            background: #1a1a2e; /* 先显示纯色背景，图片加载后替换 */
+            background: #1a1a2e;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,20 +21,18 @@
             color: #fff;
             position: relative;
         }
-        /* 优化2：背景图单独用div加载，设置懒加载+低优先级 */
         .bg-img {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/c4e2584e494f4cdf933e326ab7bf2f64.jpg~tplv-a9rns2rl98-image.png?lk3s=8e244e95&rcl=202602201715590340FD216A0A9471E78A&rrcfp=dafada99&x-expires=2087802960&x-signature=KxnK%2BNA1iB3fqa3VdzCBsEla89o%3D') no-repeat center center;
+            background: url('https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/c4e2584e494f4cdf933e326ab7bf2f64.jpg~tplv-a9rns2rl98-image.png') no-repeat center center;
             background-size: cover;
-            opacity: 0; /* 初始透明 */
+            opacity: 0;
             transition: opacity 0.8s ease;
-            z-index: -1; /* 放在最底层，不阻塞渲染 */
+            z-index: -1;
         }
-        /* 背景遮罩：提前渲染，不依赖图片 */
         body::before {
             content: "";
             position: absolute;
@@ -50,7 +43,6 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 0;
         }
-        /* 顶部提示条：轻量化，提前渲染 */
         .top-notice {
             position: fixed;
             top: 0;
@@ -69,7 +61,6 @@
             text-decoration: none;
             font-weight: bold;
         }
-        /* 主容器：优先渲染，不依赖背景图 */
         .container { 
             max-width: 700px; 
             width: 100%;
@@ -161,7 +152,6 @@
             height: 300px;
             opacity: 0;
         }
-        /* 手机端适配 */
         @media (max-width: 768px) {
             .container {
                 padding: 35px 25px;
@@ -180,57 +170,54 @@
     </style>
 </head>
 <body>
-    <!-- 背景图div：懒加载 -->
-    <div class="bg-img" id="bgImg"></div>
 
-    <!-- 顶部提示条 -->
-    <div class="top-notice">
-        收藏本站永久地址：<a href="https://xiangwang.netlify.app/" target="_blank">https://xiangwang.netlify.app/</a>，防止失联！<br>
-        网站域名经常更新，防止网站打不开，请务必截图收藏此网页，永久有效！
-    </div>
+<div class="bg-img" id="bgImg"></div>
 
-    <div class="container">
-        <h1>向往货源地址发布页</h1>
-        <div class="beijing-time" id="realTimeClock">北京时间：2026-02-24 23:32:00</div>
-        <div class="tips">请 Ctrl+D 收藏本页到浏览器收藏夹回家不迷路！<br>联系售后客服+进入官方频道需要挂加速器VPN节点</div>
-        <div class="btn-group">
-            <div class="btn-row">
-                <a href="https://p.ab0r.cn/links/F1C2F8CB" class="btn" target="_blank">主卡网</a>
-                <a href="https://yun.95yjs.com/links/11E2FD70" class="btn" target="_blank">备用卡网</a>
-            </div>
-            <div class="btn-row">
-                <a href="https://t.me/@XH8888Fc" class="btn" target="_blank">售后客服</a>
-            </div>
-            <div class="btn-row">
-                <a href="https://t.me/XWKJ88" class="btn" target="_blank">官方TG频道</a>
-                <a href="https://t.me/Xwi918" class="btn" target="_blank">官方TG交流群</a>
-            </div>
+<div class="top-notice">
+    收藏本站永久地址：<a href="https://xiangwang.netlify.app/" target="_blank">https://xiangwang.netlify.app/</a>，防止失联！<br>
+    网站域名经常更新，防止网站打不开，请务必截图收藏此网页，永久有效！
+</div>
+
+<div class="container">
+    <h1>向往货源地址发布页</h1>
+    <div class="beijing-time" id="realTimeClock">北京时间：2026-02-24 23:32:00</div>
+    <div class="tips">请 Ctrl+D 收藏本页到浏览器收藏夹回家不迷路！<br>联系售后客服+进入官方频道需要挂加速器VPN节点</div>
+    <div class="btn-group">
+        <div class="btn-row">
+            <!-- 已更新为你最新的主卡网链接 -->
+            <a href="https://p.ab0r.cn/links/8E8DCCB9" class="btn" target="_blank">主卡网</a>
+            <a href="https://yun.95yjs.com/links/11E2FD70" class="btn" target="_blank">备用卡网</a>
+        </div>
+        <div class="btn-row">
+            <a href="https://t.me/@XH8888Fc" class="btn" target="_blank">售后客服</a>
+        </div>
+        <div class="btn-row">
+            <a href="https://t.me/XWKJ88" class="btn" target="_blank">官方TG频道</a>
+            <a href="https://t.me/Xwi918" class="btn" target="_blank">官方TG交流群</a>
         </div>
     </div>
+</div>
 
-    <script>
-        // 优化3：页面渲染完成后，再加载背景图（不阻塞首屏）
-        window.onload = function() {
-            // 显示背景图
-            document.getElementById('bgImg').style.opacity = 1;
-            
-            // 实时时间（延后加载，不影响首屏）
-            function formatDateTime(date) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                const hours = String(date.getHours()).padStart(2, '0');
-                const minutes = String(date.getMinutes()).padStart(2, '0');
-                const seconds = String(date.getSeconds()).padStart(2, '0');
-                return `北京时间：${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-            }
-            function updateClock() {
-                const now = new Date();
-                document.getElementById('realTimeClock').textContent = formatDateTime(now);
-            }
-            updateClock();
-            setInterval(updateClock, 1000);
-        };
-    </script>
+<script>
+window.onload = function() {
+    document.getElementById('bgImg').style.opacity = 1;
+
+    function formatDateTime(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `北京时间：${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('realTimeClock').textContent = formatDateTime(now);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+};
+</script>
 </body>
 </html>
